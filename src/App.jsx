@@ -7,14 +7,22 @@ function App() {
   //etat
 const [sommes, setSommes] = useState([
   {id: 1, nombre: 5555},
-  {id: 2, nombre: 5556},
+  /*{id: 2, nombre: 5556},
   {id: 3, nombre: 5557},
   {id: 4, nombre: 5558},
   {id: 5, nombre: 5559},
+  */
 ]);
+
+const [amount, setAmount] = useState ("5555");
+
 const [newSomme, setNewSomme] = useState("");
 
 
+ /*const value = e.target.value;
+          if(!sommes< e.target.value)
+            return ("no no no!")
+*/
 //comportements
 const handleChange = (e) => {
   e.preventDefault();
@@ -22,15 +30,43 @@ const handleChange = (e) => {
 }
 
 const handleSubmit = (e) => {
-  e.preventDefault();
+ 
+  e.preventDefault()
+ 
+ 
+  if(newSomme<=amount)
+    return
+
+
   const sommesCopy = [...sommes]
   const id = new Date().getTime();
   const nombre = newSomme;
+  
+ 
+   
   sommesCopy.push({id, nombre});
 
   setSommes(sommesCopy);
-  setNewSomme("")
+ 
+  
+  setNewSomme("") 
+  //setNewSomme(2) 
+  //setAmount(..)
+
+  /*if (sommes>amount)
+  console.log("yes!")
+*/
+  
+
+  if (!sommes>amount)
+   console.log("oh oh!")
+
+  
+
 }
+
+
+
 
 
 const handleDelete = (id) => {
@@ -47,7 +83,7 @@ const handleDelete = (id) => {
   return (
     <>
       <div>
-        <form action="submit" onSubmit={handleSubmit}> 
+        <form action="submit" onSubmit={handleSubmit} > 
           <input 
           value = {newSomme} type="number" placeholder='entrez une somme' onChange={handleChange}/>
           <button>ok</button>
@@ -57,7 +93,10 @@ const handleDelete = (id) => {
         <ul>
 
           {sommes
-          .sort((a,b) => a.nombre < b.nombre ? 1: -1)
+          .sort((a,b) => a.nombre < b.nombre ? 1: -1 ) 
+          
+          
+         
           
           /*
           .sort((a,b) => a.nombre > b.nombre ? console.log("Vous devez proposez une enchere plus audacieuse que le dernier acheteur"):""
