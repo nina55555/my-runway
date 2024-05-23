@@ -1,126 +1,195 @@
-import { useState } from 'react'
-import './App.css'
-import { useQueryClient, useQuery } from '@tanstack/react-query'
-
+import { useState } from "react";
+import "./App.css";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 
 function App() {
   //etat
-const [sommes, setSommes] = useState([
-  {id: 1, nombre: 5555},
-  /*{id: 2, nombre: 5556},
-  {id: 3, nombre: 5557},
-  {id: 4, nombre: 5558},
-  {id: 5, nombre: 5559},
-  */
-]);
-
-const [amount, setAmount] = useState ("5555");
-
-const [newSomme, setNewSomme] = useState("");
 
 
- /*const value = e.target.value;
-          if(!sommes< e.target.value)
-            return ("no no no!")
-*/
-//comportements
-const handleChange = (e) => {
-  e.preventDefault();
-  setNewSomme(e.target.value);
+  const [sommes, setSommes] = useState([5555
+    /*{ id: 1, nombre: 5555 },
+    { id: 2, nombre: 5556 },
+    */
+  ]);
+  
+  const [newSomme, setNewSomme] = useState("");
+
+
+  //console.log(listSommes)
+
+  //comportements
+  const handleChange = (e) => {
+    e.preventDefault();
+    setNewSomme(e.target.value);
+  };
+
+
+    
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        //chercher comparateur de stringify >
+        console.log (JSON.stringify(newSomme))
+        console.log (JSON.stringify(sommes))
+        
+      
+        const sommesCopy = [...sommes];
+        const max = Math.max(...sommesCopy)
+        console.log(max)
+        if (max>newSomme){
+          alert("allons un peu de nerf"),
+        setNewSomme("");
+          return;
+        }
+        sommesCopy.push(newSomme);
+        setSommes(sommesCopy);
+      
+        setNewSomme("");
 }
+     
+  /*
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const sommesCopy = [...sommes];
+    const id = new Date().getTime();
+    const nombre = newSomme;
+    sommesCopy.push({ id, nombre });
+    setSommes(sommesCopy);
+    setNewSomme("");
+  };
+    
+  */
 
+
+
+  //essai async fonction
+  /*async function handleSubmit (newSomme) {
+    if (JSON.stringify(newSomme)>
+        JSON.stringify(sommes.nombre)) (
+          setNewSomme(true)
+        )
+          const sommesCopy = [...sommes];
+          const id = new Date().getTime();
+          const nombre = newSomme;
+          sommesCopy.push({ id, nombre });
+          setSommes(sommesCopy);
+          setNewSomme(""); 
+  }
+*/
+
+//essai2
+/*
 const handleSubmit = (e) => {
- 
-  e.preventDefault()
- 
- 
-  if(newSomme<=amount)
-    return
-
-
-  const sommesCopy = [...sommes]
+  e.preventDefault();
+  const sommesCopy = [...sommes];
   const id = new Date().getTime();
   const nombre = newSomme;
-  
- 
-   
-  sommesCopy.push({id, nombre});
-
+  sommesCopy.push({ id, nombre });
   setSommes(sommesCopy);
+  
+  //valeurs des variables sommes et newSomme a stringify pour pouvoir les comparer
+  const listSommes = sommes.filter((sommes =>{newSomme<[sommes.nombre]} ) );
+
+  if (JSON.stringify(newSomme)>
+  JSON.stringify([sommes.nombre])) (
+    
+    setNewSomme(true)
+  )
+  console.log(listSommes)
+  console.log(sommes)
+  console.log(newSomme)//
+  console.log(sommes,newSomme)
+  setNewSomme("");
+};
+*/
+
+//essaie3
+/*
+const handleSubmit = (e) => {
+  e.preventDefault();
+  const sommesCopy = [...sommes];
+  const id = new Date().getTime();
+  const nombre = newSomme;
+  sommesCopy.push({ id, nombre });
+  setSommes(sommesCopy);
+  
+  //valeurs des variables sommes et newSomme a stringify pour pouvoir les comparer
+  const listSommes = sommes.filter((sommes =>{newSomme<[sommes]} ) );
+
+
+
+
+  console.log(listSommes)
+  console.log(sommes)
+  console.log(newSomme)//
+  console.log(sommes,newSomme)
+  setNewSomme("");
+};
+*/
+
+//essai4
+
+
  
   
-  setNewSomme("") 
-  //setNewSomme(2) 
-  //setAmount(..)
 
-  /*if (sommes>amount)
-  console.log("yes!")
-*/
-  
-
-  if (!sommes>amount)
-   console.log("oh oh!")
-
-  
-
-}
+  //valeurs des variables sommes et newSomme a stringify pour pouvoir les comparer
+ 
 
 
 
 
+//
+  const handleDelete = (delsomme) => {
 
-const handleDelete = (id) => {
-  console.log(id);
-  const sommesCopy = [...sommes]
-  const sommesCopyUpdated = sommesCopy.filter(somme => somme.id!== id)
-  setSommes(sommesCopyUpdated)
+    const sommesCopy = [...sommes];
+    const sommesCopyUpdated = sommesCopy.filter((somme) => somme !== delsomme);
 
+    setSommes(sommesCopyUpdated);
+  };
 
-
-}
-  
-//rendu
+  //rendu
   return (
     <>
       <div>
-        <form action="submit" onSubmit={handleSubmit} > 
-          <input 
-          value = {newSomme} type="number" placeholder='entrez une somme' onChange={handleChange}/>
+        <form action="submit" onSubmit={handleSubmit}>
+          <input
+            value={newSomme}
+            type="number"
+            placeholder="entrez une somme"
+            onChange={handleChange}
+          />
           <button>ok</button>
         </form>
-        
         <h1>acheteurs:</h1>
         <ul>
-
           {sommes
-          .sort((a,b) => a.nombre < b.nombre ? 1: -1 ) 
-          
-          
-         
-          
-          /*
-          .sort((a,b) => a.nombre > b.nombre ? console.log("Vous devez proposez une enchere plus audacieuse que le dernier acheteur"):""
-          )
-          */
-          .map ((somme) =>(
-            <li key={somme.id}>
-              {somme.nombre}
-              <button onClick={()=> handleDelete(somme.id) }>X</button>
-            </li>
-          )) 
-          }
-          
+          //a voir car ca ne prend en compte que le premier numero du nombre sommes
+            //.sort((a, b) => (a.nombre < b.nombre ? 1 : -1))
+            .sort((a, b) => (a < b ? 1 : -1))
+            .map((somme,i) => (
+              <li key={i}>
+                {somme}
+                <button onClick={() => handleDelete(somme)}>X</button>
+              </li>
+            ))}
         </ul>
-
-        <div>
-
-        </div>
-        
-       
       </div>
-     
     </>
-  )
+  );
 }
 
-export default App
+export default App;
+
+/*
+  if(newSomme<=amount)
+    return
+*/
+/*
+const [amount, setAmount] = useState ("5555");
+*/
+
+/*
+  if (!sommes>amount)
+   console.log("oh oh!")
+  return ("no no no!")
+*/
